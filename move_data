@@ -1,0 +1,51 @@
+function moveData() {
+  var sourceSheetName = ""; // the name of the source sheet
+  var destinationSpreadsheetId = ""; // the Id of the spreadsheet 
+  var sourceRange = "B:V"; // the range of the source sheet
+  
+  var sourceSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sourceSheetName);
+  var destinationSpreadsheet = SpreadsheetApp.openById(destinationSpreadsheetId);
+  var destinationSheet = destinationSpreadsheet.getSheetByName("base");
+  
+  var lastRow = sourceSheet.getLastRow();
+  
+  // Adjust the range to start from the second row (skipping the header)
+  var dataRange = sourceSheet.getRange(2, 2, lastRow - 1, 22);
+  
+  var values = dataRange.getValues();
+  
+  // Map the specified columns as per the specified requirements
+  values.forEach(function(row) {
+    // Check if column A in Respostas do Formulário 1 is not empty
+    if (row[0] !== '' && row[0] !== null) {
+      destinationSheet.appendRow([
+        // The code bellow has the following syntax. Each line if a column of the destination sheet, starting left to right, and the content of the line is the data to be moved from the source.
+        '',          // this is our first line, and the code on it is '' with means the first colummn (normally A) of the destination sheet will be unchanged.  
+        '9999999',   // this is our second line, and has the content '9999999' that means that the second column (B) of the destination sheet will be filled with '9999999'
+        row[0],      // this is our third line, and has the content 'row[0]' that means that the third column (C) of the destination sheet will be filled with the content of the first column (A) of the source sheet. Remember that here the first column is represented by index 0 "row[0]" and not 1. "row[1]" correspondes to column B from the source sheet.
+        row[2],      // this is our fourth line, and has the content 'row[2]' that means that the fourth column (D) of the destination sheet will be filled with the content of the third column (A) of the source sheet.
+      ]);            // and you can keep this as long as you want
+    }
+  });
+  
+  // Clear original data from the source sheet
+  dataRange.clearContent(); // delete this line if you want to copy instead of move
+}
+
+
+// Create a time-driven trigger to run the function at 23:30 every day
+function createTimeDrivenTrigger2() {
+  // Delete existing triggers to avoid duplicates
+  var existingTriggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < existingTriggers.length; i++) {
+    ScriptApp.deleteTrigger(existingTriggers[i]);
+  }
+
+  // Create a new time-driven trigger
+  ScriptApp.newTrigger('deleteForever')
+      .timeBased()
+      .atHour(23)
+      .nearMinute(30)
+      .everyDays(1)
+      .create();
+}  
