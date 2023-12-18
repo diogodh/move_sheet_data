@@ -19,12 +19,14 @@ function moveData() {
     // Check if column A in Respostas do Formulário 1 is not empty
     if (row[0] !== '' && row[0] !== null) {
       destinationSheet.appendRow([
-        // The code bellow has the following syntax. Each line if a column of the destination sheet, starting left to right, and the content of the line is the data to be moved from the source.
-        '',          // this is our first line, and the code on it is '' with means the first colummn (normally A) of the destination sheet will be unchanged.  
-        '9999999',   // this is our second line, and has the content '9999999' that means that the second column (B) of the destination sheet will be filled with '9999999'
-        row[0],      // this is our third line, and has the content 'row[0]' that means that the third column (C) of the destination sheet will be filled with the content of the first column (A) of the source sheet. Remember that here the first column is represented by index 0 "row[0]" and not 1. "row[1]" correspondes to column B from the source sheet.
-        row[2],      // this is our fourth line, and has the content 'row[2]' that means that the fourth column (D) of the destination sheet will be filled with the content of the third column (A) of the source sheet.
-      ]);            // and you can keep this as long as you want
+
+        // The code below follows a specific syntax. Each line corresponds to a column of the destination sheet, starting from left to right. The content of each line represents the data to be moved from the source sheet.
+
+        '',          // This is our first line, and the content is '' which means the first column (normally A) of the destination sheet will remain unchanged.  
+        '9999999',   // This is our second line, and it indicates that the second column (B) of the destination sheet will be filled with the value '9999999.' 
+        row[0],      // This is our third line, and it specifies that the third column (C) of the destination sheet will be filled with the content of the first column (A) of the source sheet (indexed as "row[0]"). Remember that the index starts from 0, meaning row[0] is the first column (A) and so on.
+        row[2],      // This is our fourth line, and it states that the fourth column (D) of the destination sheet will be filled with the content of the third column (C) of the source sheet (indexed as "row[2]").
+      ]);            // You can continue this pattern for additional columns as needed.
     }
   });
   
