@@ -44,7 +44,7 @@ function createTimeDrivenTrigger2() {
   }
 
   // Create a new time-driven trigger
-  ScriptApp.newTrigger('deleteForever')
+  ScriptApp.newTrigger('moveData')
       .timeBased()
       .atHour() // put your hour, for example if you want it to run at 23:00, put .atHour(23)
       .nearMinute() // put the minutes, for example if you want it to run at 23:30, put .nearMinute(30). If you don't want to specify minutes, for example if you want it to run at 23:00, just delete the line
