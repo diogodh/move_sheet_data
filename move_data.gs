@@ -1,24 +1,30 @@
 function moveData() {
-  var sourceSheetName = ""; // the name of the source sheet
-  var destinationSpreadsheetId = ""; // the Id of the spreadsheet 
+  var spreadsheetId = ""; // the Id of your spreadsheet
+  var sourceSheetName = ""; // name of the source sheet
+  var spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+  var sourceSheet = spreadsheet.getSheetByName(sourceSheetName);
+
+  var destinationSheetName = ""; // name of the destination sheet
+  var destinationSheet = spreadsheet.getSheetByName(destinationSheetName);
+
   var sourceRange = "B:V"; // the range of the source sheet
-  
-  var sourceSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sourceSheetName);
-  var destinationSpreadsheet = SpreadsheetApp.openById(destinationSpreadsheetId);
-  var destinationSheet = destinationSpreadsheet.getSheetByName("base");
-  
   var lastRow = sourceSheet.getLastRow();
   
   // Adjust the range to start from the second row (skipping the header)
-  var dataRange = sourceSheet.getRange(2, 2, lastRow - 1, 22);
-  
-  var values = dataRange.getValues();
-  
-  // Map the specified columns as per the specified requirements
-  values.forEach(function(row) {
-    // Check if column A in Respostas do Formulário 1 is not empty
-    if (row[0] !== '' && row[0] !== null) {
-      destinationSheet.appendRow([
+  var startRow = 2;
+  var numRows = lastRow - 1;
+
+  // Check if there are rows in the specified range
+  if (numRows > 0) {
+    var dataRange = sourceSheet.getRange(startRow, 2, numRows, 22);
+    // Now you can continue processing the dataRange as needed
+    var values = dataRange.getValues();
+
+    // Map the specified columns as per the specified requirements
+    values.forEach(function(row) {
+      // Check if column A in Source Sheet is not empty
+      if (row[0] !== '' && row[0] !== null) {
+        destinationSheet.appendRow([
 
         // The code below follows a specific syntax. Each line corresponds to a column of the destination sheet, starting from left to right. The content of each line represents the data to be moved from the source sheet.
 
@@ -30,8 +36,13 @@ function moveData() {
     }
   });
   
-  // Clear original data from the source sheet
-  dataRange.clearContent(); // delete this line if you want to copy instead of move
+    // Clear original data from the source sheet
+    sourceSheet.getRange(2, 1, lastRow - 1, sourceSheet.getLastColumn()).clearContent();
+
+  } else {
+    // Handle the case where there are no rows in the specified range
+    console.log("No rows to process");
+  }
 }
 
 
